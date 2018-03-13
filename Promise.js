@@ -13,15 +13,28 @@ After being resolved, each promise will log its id in the console.
 3. Modify the app so it prints a message that all promises are completed.
 
 */
-for (var i = 0; i < 99; i++) {
+arr = [];
+
+for (var i = 0; i < 10; i++) {
     var time = 500 * Math.random();
-    const myPromise = new Promise((resolve, reject) => {
+    arr.push(new Promise((resolve, reject) => {
         var j = i;
-        setTimeout(() => {
-            resolve(j);
-        }, time)
-    });
-    myPromise.then((msg) => {
-        console.log(msg)
-    });
+        if (time > 250) {
+            setTimeout(() => {
+                resolve(j);
+            }, time)
+        } else {
+            setTimeout(() => {
+                reject('Rejected' + j);
+            }, time)
+        }
+    }));
 }
+
+arr.map((el) => {
+    el.then((msg) => {
+        console.log(msg)
+    }, (reason) => {
+        console.log(reason);
+    });
+});
